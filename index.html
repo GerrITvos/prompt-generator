@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ChatGPT Prompt Generator</title>
+  <title>Prompt Generator</title>
   <style>
     body {
       font-family: sans-serif;
       padding: 2em;
-      max-width: 700px;
+      max-width: 800px;
       margin: auto;
       background: #f7f7f7;
     }
@@ -39,22 +39,54 @@
       border: 1px solid #ccc;
       white-space: pre-wrap;
     }
+    .optional {
+      font-weight: normal;
+      color: #555;
+      font-style: italic;
+    }
+    details {
+      margin-top: 1.5em;
+    }
+    summary {
+      font-weight: bold;
+      cursor: pointer;
+      margin-bottom: 0.5em;
+    }
   </style>
 </head>
 <body>
   <h1>Prompt Generator</h1>
 
-  <label for="goal">🧠 What's the goal of the prompt?</label>
-  <input type="text" id="goal" placeholder="e.g. Plan my week, outline a story, run a retro..." />
+  <label for="goal">🧠 Prompt goal</label>
+  <input type="text" id="goal" placeholder="e.g. Plan my sprint, write a story outline, brainstorm risks..." />
 
-  <label for="tone">🎭 What tone or style?</label>
-  <input type="text" id="tone" placeholder="e.g. Motivating, witty, assertive, poetic..." />
+  <label for="tone">🎭 Desired tone or style <span class="optional">(optional)</span></label>
+  <input type="text" id="tone" placeholder="e.g. Motivating, assertive, casual, poetic..." />
 
-  <label for="context">📋 What's the context or background?</label>
-  <textarea id="context" rows="3" placeholder="e.g. I'm a product owner juggling 3 projects, or I'm writing a sci-fi short story..."></textarea>
+  <label for="context">📋 Context or background <span class="optional">(optional)</span></label>
+  <textarea id="context" rows="3" placeholder="e.g. I'm a product owner juggling 3 projects..."></textarea>
 
-  <label for="format">🛠️ Preferred output format?</label>
-  <input type="text" id="format" placeholder="e.g. Checklist, step-by-step, story arc, bullet points..." />
+  <label for="format">🛠️ Preferred output format <span class="optional">(optional)</span></label>
+  <input type="text" id="format" placeholder="e.g. Step-by-step, checklist, story arc..." />
+
+  <details>
+    <summary>➕ More Options</summary>
+
+    <label for="audience">👥 Target audience <span class="optional">(optional)</span></label>
+    <input type="text" id="audience" placeholder="e.g. Leadership team, devs, stakeholders, kids age 12–15..." />
+
+    <label for="urgency">⏳ Time horizon or urgency <span class="optional">(optional)</span></label>
+    <input type="text" id="urgency" placeholder="e.g. For a meeting in 2 hours, Q3 planning..." />
+
+    <label for="constraints">⚖️ Key constraints or must-haves <span class="optional">(optional)</span></label>
+    <textarea id="constraints" rows="2" placeholder="e.g. Max 3 slides, follow Agile, no budget increase..."></textarea>
+
+    <label for="success">🎯 What does success look like? <span class="optional">(optional)</span></label>
+    <textarea id="success" rows="2" placeholder="e.g. Stakeholder alignment, a compelling narrative..."></textarea>
+
+    <label for="reference">📚 Reference structure or inspiration <span class="optional">(optional)</span></label>
+    <input type="text" id="reference" placeholder="e.g. Pixar story arc, company tone of voice..." />
+  </details>
 
   <button onclick="generatePrompt()">Generate Prompt</button>
 
@@ -63,15 +95,18 @@
 
   <script>
     function generatePrompt() {
-      const goal = document.getElementById('goal').value.trim();
-      const tone = document.getElementById('tone').value.trim();
-      const context = document.getElementById('context').value.trim();
-      const format = document.getElementById('format').value.trim();
+      const get = (id) => document.getElementById(id).value.trim();
+      const prompt = `You are a helpful assistant. Your task is to help with the following goal: "${get('goal')}".
+Use a ${get('tone') || "neutral"} tone.
 
-      const prompt = `You are a helpful assistant. Your task is to help with the following goal: "${goal}". 
-Use a ${tone || "neutral"} tone. 
-Context: ${context || "No additional context provided."}
-Return the response in this format: ${format || "Whatever makes most sense."}`;
+Context: ${get('context') || "No additional context provided."}
+Output format: ${get('format') || "Whatever makes most sense."}
+
+${get('audience') ? "Target audience: " + get('audience') : ""}
+${get('urgency') ? "\nTime urgency: " + get('urgency') : ""}
+${get('constraints') ? "\nConstraints: " + get('constraints') : ""}
+${get('success') ? "\nDefinition of success: " + get('success') : ""}
+${get('reference') ? "\nReference structure: " + get('reference') : ""}`.trim();
 
       document.getElementById('output').innerText = prompt;
     }
