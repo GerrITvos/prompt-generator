@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ChatGPT Prompt Generator</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 2em;
+      max-width: 700px;
+      margin: auto;
+      background: #f7f7f7;
+    }
+    h1 {
+      text-align: center;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 1em;
+    }
+    textarea, input, select {
+      width: 100%;
+      padding: 0.6em;
+      margin-top: 0.3em;
+      font-size: 1em;
+    }
+    button {
+      margin-top: 1.5em;
+      padding: 0.8em 1.2em;
+      font-size: 1em;
+      cursor: pointer;
+    }
+    #output {
+      margin-top: 2em;
+      background: #fff;
+      padding: 1em;
+      border: 1px solid #ccc;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <h1>Prompt Generator</h1>
+
+  <label for="goal">🧠 What's the goal of the prompt?</label>
+  <input type="text" id="goal" placeholder="e.g. Plan my week, outline a story, run a retro..." />
+
+  <label for="tone">🎭 What tone or style?</label>
+  <input type="text" id="tone" placeholder="e.g. Motivating, witty, assertive, poetic..." />
+
+  <label for="context">📋 What's the context or background?</label>
+  <textarea id="context" rows="3" placeholder="e.g. I'm a product owner juggling 3 projects, or I'm writing a sci-fi short story..."></textarea>
+
+  <label for="format">🛠️ Preferred output format?</label>
+  <input type="text" id="format" placeholder="e.g. Checklist, step-by-step, story arc, bullet points..." />
+
+  <button onclick="generatePrompt()">Generate Prompt</button>
+
+  <div id="output"></div>
+  <button onclick="copyPrompt()">Copy to Clipboard</button>
+
+  <script>
+    function generatePrompt() {
+      const goal = document.getElementById('goal').value.trim();
+      const tone = document.getElementById('tone').value.trim();
+      const context = document.getElementById('context').value.trim();
+      const format = document.getElementById('format').value.trim();
+
+      const prompt = `You are a helpful assistant. Your task is to help with the following goal: "${goal}". 
+Use a ${tone || "neutral"} tone. 
+Context: ${context || "No additional context provided."}
+Return the response in this format: ${format || "Whatever makes most sense."}`;
+
+      document.getElementById('output').innerText = prompt;
+    }
+
+    function copyPrompt() {
+      const text = document.getElementById('output').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Prompt copied to clipboard!");
+      });
+    }
+  </script>
+</body>
+</html>
