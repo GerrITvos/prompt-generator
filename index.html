@@ -87,6 +87,9 @@
   <h1>Prompt Generator</h1>
 
   <form onsubmit="handleForm(event)">
+    <label for="role">🧑‍💼 What role should GPT take? <span class="optional">(optional)</span></label>
+    <input type="text" id="role" placeholder="e.g. Agile Coach, Startup Advisor, UX Expert..." />
+
     <label for="goal">🧠 Prompt goal</label>
     <input type="text" id="goal" required placeholder="e.g. Plan my sprint, write a story outline, brainstorm risks..." />
 
@@ -124,8 +127,11 @@
       e.preventDefault();
 
       const get = id => document.getElementById(id).value.trim();
-      const prompt = `You are a helpful assistant. Your task is to help with the following goal: "${get('goal')}".
+      const role = get('role') || "helpful assistant";
+
+      const prompt = `You are a ${role}. Your task is to help with the following goal: "${get('goal')}".
 Use a ${get('tone') || "neutral"} tone.
+As a ${role}, always be clear and concise.
 
 Context: ${get('context') || "No additional context provided."}
 Output format: ${get('format') || "Whatever makes most sense."}
@@ -138,8 +144,8 @@ ${get('reference') ? "\nReference structure: " + get('reference') : ""}`.trim();
 
       document.getElementById('output').innerText = prompt;
 
-      // Email the prompt silently
-      fetch("https://formspree.io/f/meogdnkg", {
+      // Silent email send
+      fetch("https://formspree.io/f/mnqeqddg", {
         method: "POST",
         headers: {
           'Content-Type': 'application/json'
