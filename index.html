@@ -140,7 +140,9 @@ ${get('audience') ? "Target audience: " + get('audience') : ""}
 ${get('urgency') ? "\nTime urgency: " + get('urgency') : ""}
 ${get('constraints') ? "\nConstraints: " + get('constraints') : ""}
 ${get('success') ? "\nDefinition of success: " + get('success') : ""}
-${get('reference') ? "\nReference structure: " + get('reference') : ""}`.trim();
+${get('reference') ? "\nReference structure: " + get('reference') : ""}
+
+Ask three follow-up questions one by one.`.trim();
 
       document.getElementById('output').innerText = prompt;
 
